@@ -1,5 +1,5 @@
 [package]
-name = "2d_color_visualizer"
+name = "two_d_color_visualizer"
 version = "0.1.0"
 edition = "2021"
 

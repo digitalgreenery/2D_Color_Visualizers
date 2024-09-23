@@ -1,10 +1,8 @@
 use bevy::{
-    prelude::*, render::{render_asset::RenderAssetUsages, render_resource::{AsBindGroup, Extent3d, ShaderRef, TextureDimension, TextureFormat}}, sprite::{Material2d, MaterialMesh2dBundle, Mesh2dHandle}
+    prelude::*, render::{render_asset::RenderAssetUsages, render_resource::{Extent3d, ShaderRef, TextureDimension, TextureFormat}}, sprite::{Material2d, MaterialMesh2dBundle, Mesh2dHandle}
 };
 
 use prismatic_color::{Color as P_Color, constants as Color_Names};
-
-
 
 pub fn spawn(
     windows: Query<&Window>,
@@ -21,7 +19,7 @@ pub fn spawn(
     );
     let top = windows.single().height() / 2. * (1. - scale.0);
     
-    for i in 0..3{
+    for i in 0..color_sets.len(){
         let rectangle_mesh = Mesh2dHandle(meshes.add(Rectangle::new(width, height)));
         let color_pair = color_sets.get(i).expect("Gradient Missing");
         let (start, end) = (
@@ -35,7 +33,7 @@ pub fn spawn(
                 texture: Some(image_handle),
                 ..Default::default()
             }),
-            transform: Transform::from_xyz(0.0, top - height * 1.5 * i as f32, 0.0 ),
+            transform: Transform::from_xyz(0.0, top - height * 1.1 * i as f32, 0.0 ),
         ..default()
         }).insert(crate::VisualizerComponent{});
     }
@@ -55,11 +53,16 @@ pub fn generate_colors() -> Vec<Vec<P_Color>> {
         Color_Names::BLACK,
         Color_Names::BLUE,
     ];
+    let gradient_four = vec![
+        P_Color::spherical_hcl(0.,1.,1.),
+        P_Color::spherical_hcl(0.9999, 1., 1.),
+    ];
 
     let gradients = vec![
         gradient_one, 
         gradient_two, 
         gradient_three,
+        gradient_four,
     ];
 
     return gradients
