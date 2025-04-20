@@ -2,7 +2,7 @@ use bevy::{
     prelude::*, render::{render_asset::RenderAssetUsages, render_resource::{Extent3d, ShaderRef, TextureDimension, TextureFormat}}, sprite::{Material2d, MaterialMesh2dBundle, Mesh2dHandle}
 };
 
-use prismatic_color::{Color as P_Color, constants as Color_Names};
+use prismatic_color::{linear_gradient, Color as P_Color, constants as Color_Names};
 
 pub fn spawn(
     windows: Query<&Window>,
@@ -75,7 +75,7 @@ fn gradient_texture(
     height: f32,
 ) -> Image {
     let (width, height) = (width.floor() as usize, height.floor() as usize);
-    let gradient = P_Color::gradient(&start, &end, width);
+    let gradient = linear_gradient(&start, &end, width);
 
     let mut texture_data: Vec<u8> = Vec::with_capacity(height * width * 4);
 

@@ -20,7 +20,7 @@ pub enum VisualizerScene{
 trait ColorVisualizer{
     fn spawn(
         &self,
-        windows: Query<&Window>,
+        window: Query<&Window>,
         commands: &mut Commands,
         materials: &mut ResMut<Assets<ColorMaterial>>,
         meshes: &mut ResMut<Assets<Mesh>>,
@@ -40,7 +40,7 @@ trait ColorVisualizer{
 impl ColorVisualizer for VisualizerScene {
     fn spawn(
         &self,
-        windows: Query<&Window>,
+        window: Query<&Window>,
         commands: &mut Commands,
         materials: &mut ResMut<Assets<ColorMaterial>>,
         meshes: &mut ResMut<Assets<Mesh>>,
@@ -48,9 +48,9 @@ impl ColorVisualizer for VisualizerScene {
         color_sets: Vec<Vec<P_Color>>,
     ) {
         match self {
-            VisualizerScene::HueWheel => hue_wheel::spawn(windows, commands, materials, meshes, color_sets),
-            VisualizerScene::ColorPeaks => color_peaks::spawn(windows, commands, materials, meshes, color_sets),
-            VisualizerScene::Gradients => gradients::spawn(windows, commands, materials, meshes, images, color_sets),
+            VisualizerScene::HueWheel => hue_wheel::spawn(window, commands, materials, meshes, color_sets),
+            VisualizerScene::ColorPeaks => color_peaks::spawn(window, commands, materials, meshes, color_sets),
+            VisualizerScene::Gradients => gradients::spawn(window, commands, materials, meshes, images, color_sets),
         }
     }
 
@@ -146,7 +146,7 @@ fn setup(
 }
 
 fn toggle_visualizers(
-    windows: Query<&Window>,
+    window: Query<&Window>,
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<ColorMaterial>>,
@@ -159,7 +159,7 @@ fn toggle_visualizers(
     if keyboard.just_pressed(KeyCode::Space) {
         VisualizerScene::despawn(&mut commands, visualizer_components);
         scene_config.advance();
-        scene_config.spawn_scene(windows, &mut commands, &mut meshes, &mut materials, &mut images);
+        scene_config.spawn_scene(window, &mut commands, &mut meshes, &mut materials, &mut images);
     }
 }
  
